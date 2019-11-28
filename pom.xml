@@ -4,7 +4,7 @@
 
     <groupId>com.axinf</groupId>
     <artifactId>Log4j-LogDNA</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <dependencies>

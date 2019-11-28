@@ -70,7 +70,7 @@ public class LogDNAAppender extends AbstractAppender{
 
             var innerThrowableProxy = throwableProxy.getCauseProxy();
             while(innerThrowableProxy != null){
-                sb.append("\n\t").append(innerThrowableProxy.getCauseStackTraceAsString(""));
+                sb.append("\n\t").append(innerThrowableProxy.getMessage());
                 innerThrowableProxy = innerThrowableProxy.getCauseProxy();
             }
         }
