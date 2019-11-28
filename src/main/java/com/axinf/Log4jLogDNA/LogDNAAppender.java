@@ -58,24 +58,24 @@ public class LogDNAAppender extends AbstractAppender{
 
     @Override
     public void append(LogEvent event){
-        var layout = getLayout();
-        var formattedMessage = new String(layout.toByteArray(event));
-
-        var sb = new StringBuilder()
-                .append(formattedMessage);
-
-        if(event.getThrownProxy() != null && this.includeStacktrace){
-            var throwableProxy = event.getThrownProxy();
-            sb.append("\n\n").append(throwableProxy.getClass()).append(": ").append(throwableProxy.getMessage());
-
-            var innerThrowableProxy = throwableProxy.getCauseProxy();
-            while(innerThrowableProxy != null){
-                sb.append("\n\t").append(innerThrowableProxy.getMessage());
-                innerThrowableProxy = innerThrowableProxy.getCauseProxy();
-            }
-        }
-
         try{
+            var layout = getLayout();
+            var formattedMessage = new String(layout.toByteArray(event));
+
+            var sb = new StringBuilder()
+                    .append(formattedMessage);
+
+            if(event.getThrownProxy() != null && this.includeStacktrace){
+                var throwableProxy = event.getThrownProxy();
+                sb.append("\n\n").append(throwableProxy.getClass()).append(": ").append(throwableProxy.getMessage());
+
+                var innerThrowableProxy = throwableProxy.getCauseProxy();
+                while(innerThrowableProxy != null){
+                    sb.append("\n\t").append(innerThrowableProxy.getMessage());
+                    innerThrowableProxy = innerThrowableProxy.getCauseProxy();
+                }
+            }
+
             var payload = new JSONObject();
             var lines = new JSONArray();
             payload.put("lines", lines);
@@ -113,7 +113,7 @@ public class LogDNAAppender extends AbstractAppender{
 
                 System.err.println(msg);
             }
-        }catch(JSONException e){
+        }catch(Exception e){
             var sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             System.err.println(sw.toString());
